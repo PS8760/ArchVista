@@ -14,11 +14,7 @@ const links = [
   { label: "Gallery", href: "#gallery" },
   { label: "Contact", href: "#cta" },
 ];
-const socials = [
-  { label: "Instagram", href: "#" },
-  { label: "LinkedIn", href: "#" },
-  { label: "Pinterest", href: "#" },
-];
+const socials = [];
 
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
@@ -204,9 +200,8 @@ export default function Footer() {
             </h4>
             <div className="flex flex-col gap-3">
               {[
-                { label: "Email", value: "hello@archvista.com" },
-                { label: "Phone", value: "+1 (555) 123-4567" },
-                { label: "Studio", value: "New York, NY" },
+                { label: "Email", value: "spranav0812@gmail.com" },
+                { label: "Phone", value: "+91 9004677177" },
               ].map((item) => (
                 <div key={item.label} className="flex flex-col gap-0.5">
                   <span className="text-[9px] tracking-[0.15em] uppercase text-accent/30">
@@ -245,20 +240,6 @@ export default function Footer() {
             <p className="text-xs text-text-secondary/40">
               © {new Date().getFullYear()} ArchVista. All rights reserved.
             </p>
-            <span className="hidden sm:block text-text-secondary/20 text-xs">·</span>
-            <a
-              href="#"
-              className="hidden sm:block text-xs text-text-secondary/30 hover:text-accent/60 transition-colors duration-300"
-            >
-              Privacy
-            </a>
-            <span className="hidden sm:block text-text-secondary/20 text-xs">·</span>
-            <a
-              href="#"
-              className="hidden sm:block text-xs text-text-secondary/30 hover:text-accent/60 transition-colors duration-300"
-            >
-              Terms
-            </a>
           </div>
 
           {/* Back to top with scroll progress ring */}
