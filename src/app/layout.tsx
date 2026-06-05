@@ -1,20 +1,18 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/providers/LenisProvider";
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const playfair = Playfair_Display({
   subsets: ["latin"],
+  variable: "--font-playfair",
   display: "swap",
-  weight: ["300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -44,13 +42,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${playfair.variable} ${inter.variable}`}
-    >
-      <body>
+    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+      <body className="font-body" suppressHydrationWarning>
         <LenisProvider>{children}</LenisProvider>
       </body>
     </html>
   );
 }
+

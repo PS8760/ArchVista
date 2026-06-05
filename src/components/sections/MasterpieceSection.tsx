@@ -189,12 +189,12 @@ export default function MasterpieceSection() {
       {/* Fine grid overlay */}
       <div className="absolute inset-0 grid-overlay opacity-[0.015] pointer-events-none" />
 
-      <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+      <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         {/* Left — Typography */}
-        <div ref={leftRef} className="space-y-8" style={{ opacity: 0 }}>
+        <div ref={leftRef} className="space-y-6" style={{ opacity: 0 }}>
           <span
             ref={labelRef}
-            className="text-xs tracking-[0.4em] uppercase text-accent"
+            className="text-[9px] tracking-[0.45em] uppercase text-accent"
             style={{ opacity: 0 }}
           >
             The Masterpiece
@@ -203,17 +203,17 @@ export default function MasterpieceSection() {
           <AnimatedText
             text="The Future of Living"
             as="h2"
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white font-light"
+            className="text-2xl sm:text-3xl md:text-[2.25rem] lg:text-[2.5rem] text-white font-light leading-[1.15]"
             scrollTrigger
           />
 
-          <div ref={descRef} className="space-y-6" style={{ opacity: 0 }}>
-            <p className="text-text-secondary text-base md:text-lg leading-relaxed font-light max-w-lg">
+          <div ref={descRef} className="space-y-3" style={{ opacity: 0 }}>
+            <p className="text-text-secondary/85 text-[13px] md:text-sm leading-[1.75] font-light max-w-sm">
               Where intelligent architecture meets modern luxury. Every space is
               crafted to respond to your lifestyle — a seamless fusion of
               technology, sustainability, and timeless design.
             </p>
-            <p className="text-text-secondary/60 text-sm leading-relaxed max-w-lg">
+            <p className="text-text-secondary/50 text-xs leading-[1.7] max-w-sm">
               Our residences are more than structures. They are living
               ecosystems that adapt, evolve, and inspire. From climate-responsive
               facades to AI-driven interiors, we engineer environments that
@@ -223,21 +223,18 @@ export default function MasterpieceSection() {
             {/* Expandable gold accent line */}
             <div
               ref={lineRef}
-              className="w-16 h-px bg-accent/40"
+              className="w-10 h-px bg-accent/35"
               style={{ transform: "scaleX(0)", transformOrigin: "left center" }}
             />
 
             {/* Feature tags */}
-            <div className="flex flex-wrap gap-2 pt-2">
+            <div className="flex flex-wrap gap-1.5 pt-3">
               {["Smart Home", "AI Interior", "Passive Energy", "Artisan Finish"].map(
-                (tag, i) => (
+                (tag) => (
                   <span
                     key={tag}
-                    className="text-[10px] tracking-[0.15em] uppercase text-accent/50 border border-accent/10 px-3 py-1.5"
-                    style={{
-                      borderRadius: "1px",
-                      animationDelay: `${i * 0.1 + 0.8}s`,
-                    }}
+                    className="text-[8px] tracking-[0.12em] uppercase text-accent/40 border border-accent/10 px-2 py-[3px]"
+                    style={{ borderRadius: "1px" }}
                   >
                     {tag}
                   </span>
@@ -248,11 +245,11 @@ export default function MasterpieceSection() {
         </div>
 
         {/* Right — Floating Images */}
-        <div className="relative h-[500px] md:h-[650px] lg:h-[700px]">
+        <div className="relative h-[360px] sm:h-[420px] md:h-[520px] lg:h-[500px]">
           {/* Primary Image */}
           <div
             ref={img1Ref}
-            className="absolute top-0 right-0 w-[75%] h-[65%] hover-lift group"
+            className="absolute top-0 right-0 w-[78%] h-[62%] hover-lift group"
             style={{ clipPath: "inset(0 100% 0 0)" }}
           >
             <div className="relative w-full h-full overflow-hidden">
@@ -261,20 +258,18 @@ export default function MasterpieceSection() {
                 alt="Luxury villa exterior with infinity pool at golden hour"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 768px) 90vw, 45vw"
                 quality={90}
               />
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                 style={{
-                  background:
-                    "linear-gradient(135deg, rgba(216,197,163,0.05) 0%, transparent 60%)",
+                  background: "linear-gradient(135deg, rgba(216,197,163,0.05) 0%, transparent 60%)",
                 }}
               />
-              <div className="absolute inset-0 border border-accent/8 group-hover:border-accent/20 transition-colors duration-700" />
+              <div className="absolute inset-0 border border-white/5 group-hover:border-accent/15 transition-colors duration-700" />
             </div>
-            {/* Image label */}
-            <div className="absolute -top-5 right-0 text-[9px] tracking-[0.3em] uppercase text-accent/40">
+            <div className="absolute -top-5 right-0 text-[8px] tracking-[0.3em] uppercase text-accent/35">
               Exterior Design
             </div>
           </div>
@@ -282,7 +277,7 @@ export default function MasterpieceSection() {
           {/* Secondary Image */}
           <div
             ref={img2Ref}
-            className="absolute bottom-0 left-0 w-[60%] h-[50%] hover-lift z-10 group"
+            className="absolute bottom-0 left-0 md:left-4 w-[58%] h-[48%] hover-lift z-10 group"
             style={{ clipPath: "inset(100% 0 0 0)" }}
           >
             <div className="relative w-full h-full overflow-hidden">
@@ -291,27 +286,25 @@ export default function MasterpieceSection() {
                 alt="Luxury interior with ambient lighting and designer furniture"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                sizes="(max-width: 768px) 100vw, 40vw"
+                sizes="(max-width: 768px) 70vw, 35vw"
                 quality={90}
               />
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                 style={{
-                  background:
-                    "linear-gradient(135deg, rgba(216,197,163,0.05) 0%, transparent 60%)",
+                  background: "linear-gradient(135deg, rgba(216,197,163,0.05) 0%, transparent 60%)",
                 }}
               />
-              <div className="absolute inset-0 border border-accent/8 group-hover:border-accent/20 transition-colors duration-700" />
+              <div className="absolute inset-0 border border-white/5 group-hover:border-accent/15 transition-colors duration-700" />
             </div>
 
-            {/* Caption tag */}
             <div
               ref={tagRef}
-              className="absolute -bottom-7 left-0 flex items-center gap-2"
+              className="absolute -bottom-5 left-0 flex items-center gap-2"
               style={{ opacity: 0 }}
             >
-              <div className="w-4 h-px bg-accent/40" />
-              <span className="text-[10px] tracking-[0.3em] uppercase text-accent/50">
+              <div className="w-3 h-px bg-accent/35" />
+              <span className="text-[8px] tracking-[0.25em] uppercase text-accent/45">
                 Interior Details
               </span>
             </div>
@@ -319,11 +312,8 @@ export default function MasterpieceSection() {
 
           {/* Floating accent square */}
           <div
-            className="absolute top-[30%] left-[15%] w-16 h-16 border border-accent/8 pointer-events-none"
-            style={{
-              animation: "float 6s ease-in-out infinite",
-              animationDelay: "1s",
-            }}
+            className="absolute top-[28%] left-[18%] w-10 h-10 border border-accent/6 pointer-events-none"
+            style={{ animation: "float 6s ease-in-out infinite", animationDelay: "1s" }}
           />
         </div>
       </div>

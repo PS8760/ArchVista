@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, ReactNode } from "react";
+import { useRef } from "react";
+import type { MouseEvent, ReactNode, Ref } from "react";
 
 interface MagneticButtonProps {
   children: ReactNode;
@@ -8,6 +9,8 @@ interface MagneticButtonProps {
   variant?: "primary" | "outline" | "glass";
   onClick?: () => void;
   href?: string;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }
 
 export default function MagneticButton({
@@ -16,10 +19,12 @@ export default function MagneticButton({
   variant = "primary",
   onClick,
   href,
+  type = "button",
+  disabled = false,
 }: MagneticButtonProps) {
   const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = (e: MouseEvent) => {
     const btn = buttonRef.current;
     if (!btn) return;
     const rect = btn.getBoundingClientRect();
@@ -35,7 +40,7 @@ export default function MagneticButton({
   };
 
   const baseClasses =
-    "relative inline-flex items-center justify-center px-8 py-4 text-sm tracking-[0.2em] uppercase font-light transition-all duration-500 cursor-pointer";
+    "relative inline-flex items-center justify-center px-8 py-4 text-sm tracking-[0.2em] uppercase font-light transition-all duration-500 cursor-pointer disabled:pointer-events-none disabled:opacity-55";
 
   const variantClasses = {
     primary:
@@ -48,29 +53,38 @@ export default function MagneticButton({
 
   const combinedClasses = `${baseClasses} ${variantClasses[variant]} ${className}`;
 
-  const props = {
-    ref: buttonRef as React.Ref<HTMLButtonElement>,
-    className: combinedClasses,
-    onMouseMove: handleMouseMove,
-    onMouseLeave: handleMouseLeave,
-    onClick,
-    style: { transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.5s, border-color 0.5s" },
+  const motionStyle = {
+    transition:
+      "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.5s, border-color 0.5s",
   };
 
   if (href) {
     return (
       <a
-        ref={buttonRef as React.Ref<HTMLAnchorElement>}
+        ref={buttonRef as Ref<HTMLAnchorElement>}
         href={href}
         className={combinedClasses}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={props.style}
+        style={motionStyle}
       >
         {children}
       </a>
     );
   }
 
-  return <button {...props}>{children}</button>;
+  return (
+    <button
+      ref={buttonRef as Ref<HTMLButtonElement>}
+      className={combinedClasses}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+      style={motionStyle}
+    >
+      {children}
+    </button>
+  );
 }

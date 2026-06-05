@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import LoadingScreen from "@/components/LoadingScreen";
 
 // Dynamic imports for sections to enable code-splitting and avoid SSR issues with GSAP
 const HeroSection = dynamic(
@@ -11,6 +12,10 @@ const HeroSection = dynamic(
 );
 const MasterpieceSection = dynamic(
   () => import("@/components/sections/MasterpieceSection"),
+  { ssr: false }
+);
+const StudioProcessSection = dynamic(
+  () => import("@/components/sections/StudioProcessSection"),
   { ssr: false }
 );
 const ExplodedSection = dynamic(
@@ -41,9 +46,11 @@ const CTASection = dynamic(
 export default function Home() {
   return (
     <main>
+      <LoadingScreen />
       <Navbar />
       <HeroSection />
       <MasterpieceSection />
+      <StudioProcessSection />
       <ExplodedSection />
       <BlueprintSection />
       <GallerySection />

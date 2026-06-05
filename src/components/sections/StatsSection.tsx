@@ -36,7 +36,6 @@ function AnimatedCounter({
   useEffect(() => {
     if (!isActive) return;
 
-    let start = 0;
     const duration = 2200;
     const startTime = performance.now();
 
@@ -146,9 +145,9 @@ export default function StatsSection() {
 
       <div ref={ref} className="max-w-[1600px] mx-auto">
         {/* Section Label + Heading */}
-        <div ref={headingRef} className="text-center mb-20 md:mb-28" style={{ perspective: "800px" }}>
+        <div ref={headingRef} className="text-center mb-10 md:mb-16 lg:mb-20" style={{ perspective: "800px" }}>
           <span
-            className="stat-word text-xs tracking-[0.4em] uppercase text-accent block mb-6"
+            className="stat-word text-[10px] tracking-[0.4em] uppercase text-accent block mb-4"
             style={{ opacity: 0 }}
           >
             By The Numbers
@@ -161,7 +160,7 @@ export default function StatsSection() {
                 display: "inline-block",
                 marginRight: i === 0 ? "0.3em" : 0,
                 fontFamily: "var(--font-heading)",
-                fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                fontSize: "clamp(1.8rem, 4vw, 3rem)",
                 fontWeight: 300,
                 color: "white",
                 opacity: 0,
@@ -173,11 +172,11 @@ export default function StatsSection() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0">
           {stats.map((stat, i) => (
             <div
               key={i}
-              className="text-center relative px-4 lg:px-8 group"
+              className="text-center relative px-4 lg:px-6 group"
               style={{
                 opacity: isInView ? 1 : 0,
                 transform: isInView ? "translateY(0)" : "translateY(40px)",
@@ -187,7 +186,7 @@ export default function StatsSection() {
               {/* Divider line */}
               {i > 0 && (
                 <div
-                  className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-px h-20 bg-border"
+                  className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-px h-12 bg-border"
                   style={{
                     opacity: isInView ? 1 : 0,
                     transition: `opacity 0.6s ${i * 0.15 + 0.3}s`,
@@ -197,7 +196,7 @@ export default function StatsSection() {
 
               {/* Large number */}
               <div
-                className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light text-accent mb-2"
+                className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-accent mb-2"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
                 <AnimatedCounter
@@ -208,7 +207,7 @@ export default function StatsSection() {
               </div>
 
               {/* Animated progress bar */}
-              <div className="w-16 h-px bg-border mx-auto mb-4 overflow-hidden">
+              <div className="w-12 h-px bg-border mx-auto mb-3 overflow-hidden">
                 <div
                   ref={(el) => { progressRefs.current[i] = el; }}
                   className="h-full bg-accent"
@@ -216,11 +215,11 @@ export default function StatsSection() {
                 />
               </div>
 
-              <div className="text-text-secondary text-xs md:text-sm tracking-[0.15em] uppercase mb-1">
+              <div className="text-text-secondary text-[10px] sm:text-[11px] md:text-xs tracking-[0.15em] uppercase mb-1">
                 {stat.label}
               </div>
               <div
-                className="text-text-secondary/40 text-[10px] tracking-[0.1em]"
+                className="text-text-secondary/40 text-[9px] tracking-[0.08em]"
                 style={{
                   opacity: isInView ? 1 : 0,
                   transition: `opacity 0.6s ${i * 0.15 + 0.6}s`,

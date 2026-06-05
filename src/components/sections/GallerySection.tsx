@@ -45,13 +45,13 @@ export default function GallerySection() {
   const progressRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const [cursorVisible, setCursorVisible] = useState(false);
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const section = sectionRef.current;
     const track = trackRef.current;
     if (!section || !track) return;
+
+    let mm: ReturnType<typeof gsap.matchMedia> | undefined;
 
     const ctx = gsap.context(() => {
       // Header line-by-line reveal
@@ -121,33 +121,40 @@ export default function GallerySection() {
         );
       }
 
-      // Horizontal scroll
-      const totalWidth = track.scrollWidth;
-      const viewportWidth = window.innerWidth;
-      const scrollDistance = totalWidth - viewportWidth;
+      mm = gsap.matchMedia();
 
-      const horizontalTween = gsap.to(track, {
-        x: -scrollDistance,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: () => `+=${scrollDistance}`,
-          pin: true,
-          scrub: 1.2,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            setScrollProgress(self.progress);
+      mm.add("(min-width: 1024px)", () => {
+        const totalWidth = track.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        const scrollDistance = Math.max(totalWidth - viewportWidth, 0);
+
+        const horizontalTween = gsap.to(track, {
+          x: -scrollDistance,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: () => `+=${scrollDistance}`,
+            pin: true,
+            scrub: 1.2,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              if (progressRef.current) {
+                progressRef.current.style.transform = `scaleX(${self.progress})`;
+              }
+            },
           },
-        },
+        });
+
+        return () => horizontalTween.kill();
       });
 
-      // Progress bar
-      if (progressRef.current) {
-        ScrollTrigger.create({
+      mm.add("(max-width: 1023px)", () => {
+        gsap.set(track, { clearProps: "transform" });
+        const trigger = ScrollTrigger.create({
           trigger: section,
-          start: "top top",
-          end: () => `+=${scrollDistance}`,
+          start: "top bottom",
+          end: "bottom top",
           scrub: true,
           onUpdate: (self) => {
             if (progressRef.current) {
@@ -155,10 +162,15 @@ export default function GallerySection() {
             }
           },
         });
-      }
+
+        return () => trigger.kill();
+      });
     }, section);
 
-    return () => ctx.revert();
+    return () => {
+      mm?.revert();
+      ctx.revert();
+    };
   }, []);
 
   // Smooth cursor follow
@@ -211,7 +223,7 @@ export default function GallerySection() {
       {/* Custom cursor */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 z-50 pointer-events-none mix-blend-difference"
+        className="pointer-events-none fixed left-0 top-0 z-50 hidden mix-blend-difference lg:block"
         style={{
           opacity: cursorVisible ? 1 : 0,
           transition: "opacity 0.3s",
@@ -234,14 +246,14 @@ export default function GallerySection() {
       </div>
 
       {/* Header */}
-      <div ref={headerRef} className="pt-24 pb-12 px-6 md:px-10">
-        <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+      <div ref={headerRef} className="px-5 pb-10 pt-20 sm:px-8 md:px-12">
+        <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-5">
           <div>
-            <span className="gallery-label text-xs tracking-[0.4em] uppercase text-accent block mb-5" style={{ opacity: 0 }}>
+            <span className="gallery-label text-[9px] tracking-[0.45em] uppercase text-accent block mb-4" style={{ opacity: 0 }}>
               Immersive Gallery
             </span>
             <h2
-              className="gallery-title text-3xl md:text-4xl lg:text-5xl font-light text-white"
+              className="gallery-title text-2xl md:text-3xl lg:text-4xl font-light text-white"
               style={{ perspective: "600px" }}
             >
               {["A", "Visual", "Journey"].map((word, i) => (
@@ -260,38 +272,39 @@ export default function GallerySection() {
               ))}
             </h2>
           </div>
-          <div className="flex flex-col items-start md:items-end gap-3">
-            <p className="gallery-desc text-text-secondary text-sm font-light max-w-sm" style={{ opacity: 0 }}>
+          <div className="flex flex-col items-start md:items-end gap-2">
+            <p className="gallery-desc text-text-secondary/70 text-xs font-light max-w-xs leading-relaxed" style={{ opacity: 0 }}>
               Explore our portfolio of architectural masterpieces through an
               immersive cinematic experience.
             </p>
-            <span className="gallery-hint text-[10px] tracking-[0.3em] uppercase text-accent/40" style={{ opacity: 0 }}>
+            <span className="gallery-hint text-[9px] tracking-[0.3em] uppercase text-accent/35" style={{ opacity: 0 }}>
               Scroll to explore →
             </span>
           </div>
         </div>
 
         {/* Progress bar */}
-        <div className="max-w-[1600px] mx-auto mt-6">
+        <div className="max-w-[1600px] mx-auto mt-5">
           <div className="w-full h-px bg-border overflow-hidden">
             <div
               ref={progressRef}
-              className="h-full bg-accent/60"
+              className="h-full bg-accent/50"
               style={{ transform: "scaleX(0)", transformOrigin: "left center" }}
             />
           </div>
         </div>
       </div>
 
-      {/* Horizontal Track */}
-      <div ref={trackRef} className="gallery-track pl-6 md:pl-10 pr-[20vw] pb-24">
-        {galleryItems.map((item, i) => (
+      {/* Horizontal Track — must be pure flex row; mobile stacks via CSS only */}
+      <div
+        ref={trackRef}
+        className="gallery-track pb-16 pl-5 pr-[18vw] sm:pl-8 md:pl-12 lg:pr-[20vw]"
+      >        {galleryItems.map((item, i) => (
           <div
             key={i}
-            className="gallery-item flex-shrink-0 relative group cursor-none"
-            style={{ width: "75vw", maxWidth: "1200px" }}
+            className="gallery-item group relative flex-shrink-0 w-[90vw] sm:w-[80vw] lg:w-[72vw] lg:max-w-[1100px] lg:cursor-none"
           >
-            <div className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden">
+            <div className="relative w-full overflow-hidden" style={{ height: "clamp(300px, 58vh, 700px)" }}>
               {/* Clip-path reveal animation driven by scroll via CSS */}
               <div className="gallery-image w-full h-full relative overflow-hidden">
                 <Image
@@ -301,6 +314,7 @@ export default function GallerySection() {
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                   sizes="75vw"
                   quality={90}
+                  priority={i === 0}
                 />
 
                 {/* Multi-layer gradient overlay */}
@@ -342,7 +356,7 @@ export default function GallerySection() {
               </div>
 
               {/* Caption */}
-              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 ease-out">
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 ease-out">
                 <div className="flex items-end justify-between">
                   <div>
                     <span className="text-[10px] tracking-[0.4em] uppercase text-accent">

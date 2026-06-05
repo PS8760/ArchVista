@@ -7,11 +7,17 @@ import Logo from "./Logo";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const links = ["About", "Projects", "Gallery", "Philosophy", "Contact"];
+const links = [
+  { label: "About", href: "#masterpiece" },
+  { label: "Process", href: "#process" },
+  { label: "Projects", href: "#exploded" },
+  { label: "Gallery", href: "#gallery" },
+  { label: "Contact", href: "#cta" },
+];
 const socials = [
   { label: "Instagram", href: "#" },
   { label: "LinkedIn", href: "#" },
-  { label: "Twitter", href: "#" },
+  { label: "Pinterest", href: "#" },
 ];
 
 export default function Footer() {
@@ -132,8 +138,8 @@ export default function Footer() {
         }}
       />
 
-      <div className="max-w-[1600px] mx-auto px-6 md:px-10 pt-20 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-16">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-10 pt-16 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 mb-12">
           {/* Logo & Description — col 1-4 */}
           <div
             ref={(el) => { colRefs.current[0] = el; }}
@@ -141,17 +147,17 @@ export default function Footer() {
             style={{ opacity: 0 }}
           >
             <Logo size={32} />
-            <p className="text-text-secondary text-sm leading-relaxed max-w-xs">
+            <p className="text-text-secondary text-xs leading-relaxed max-w-[220px]">
               Redefining architectural excellence with intelligent design,
               modern luxury, and a commitment to craftsmanship.
             </p>
 
             {/* Small award badges */}
-            <div className="flex gap-3 pt-2">
-              {["2024 AIA Award", "Dezeen 100"].map((badge) => (
+            <div className="flex gap-2 pt-1">
+              {["AIA Design Honor", "Dezeen Studio Index"].map((badge) => (
                 <span
                   key={badge}
-                  className="text-[9px] tracking-[0.12em] uppercase text-accent/40 border border-accent/10 px-2 py-1"
+                  className="text-[8px] tracking-[0.1em] uppercase text-accent/35 border border-accent/10 px-2 py-1"
                   style={{ borderRadius: "1px" }}
                 >
                   {badge}
@@ -172,14 +178,14 @@ export default function Footer() {
             <h4 className="text-[10px] tracking-[0.35em] uppercase text-accent/70">
               Explore
             </h4>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2.5">
               {links.map((link) => (
                 <a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
-                  className="group relative text-sm text-text-secondary hover:text-accent transition-colors duration-300 w-fit"
+                  key={link.label}
+                  href={link.href}
+                  className="group relative text-xs text-text-secondary hover:text-accent transition-colors duration-300 w-fit"
                 >
-                  {link}
+                  {link.label}
                   {/* Animated underline */}
                   <span className="absolute bottom-0 left-0 w-0 h-px bg-accent/50 group-hover:w-full transition-all duration-400 ease-out" />
                 </a>
@@ -203,10 +209,10 @@ export default function Footer() {
                 { label: "Studio", value: "New York, NY" },
               ].map((item) => (
                 <div key={item.label} className="flex flex-col gap-0.5">
-                  <span className="text-[10px] tracking-[0.15em] uppercase text-accent/30">
+                  <span className="text-[9px] tracking-[0.15em] uppercase text-accent/30">
                     {item.label}
                   </span>
-                  <span className="text-sm text-text-secondary/80 hover:text-accent transition-colors duration-300 cursor-default">
+                  <span className="text-xs text-text-secondary/75 hover:text-accent transition-colors duration-300 cursor-default">
                     {item.value}
                   </span>
                 </div>
@@ -214,7 +220,7 @@ export default function Footer() {
             </div>
 
             {/* Social links */}
-            <div className="flex gap-5 pt-2">
+            <div className="flex gap-4 pt-2">
               {socials.map((s) => (
                 <a
                   key={s.label}
@@ -232,7 +238,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div
           ref={bottomRef}
-          className="pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4"
+          className="pt-6 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4"
           style={{ opacity: 0 }}
         >
           <div className="flex items-center gap-6">

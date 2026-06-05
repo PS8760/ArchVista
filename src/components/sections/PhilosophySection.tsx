@@ -3,7 +3,6 @@
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -259,17 +258,19 @@ export default function PhilosophySection() {
 
       <div className="max-w-[1600px] mx-auto">
         {/* Section Label */}
-        <div ref={labelRef} className="text-center mb-6" style={{ opacity: 0 }}>
-          <span className="text-xs tracking-[0.4em] uppercase text-accent">
-            Design Philosophy
-          </span>
-        </div>
+        <h2
+          ref={labelRef}
+          className="text-center mb-5 block text-[10px] tracking-[0.4em] uppercase text-accent font-light"
+          style={{ opacity: 0 }}
+        >
+          Design Philosophy
+        </h2>
 
         {/* Large Quote */}
-        <div ref={quoteRef} className="text-center mb-24 md:mb-32">
-          <blockquote className="max-w-4xl mx-auto">
+        <div ref={quoteRef} className="text-center mb-12 md:mb-16 lg:mb-20">
+          <blockquote className="max-w-3xl mx-auto">
             <p
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light text-white leading-[1.3] tracking-tight"
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-light text-white leading-[1.35]"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               {`"Architecture is the thoughtful making of space."`.split(" ").map((word, i) => (
@@ -286,18 +287,18 @@ export default function PhilosophySection() {
                 </span>
               ))}
             </p>
-            <div className="mt-8 flex items-center justify-center gap-4">
+            <div className="mt-6 flex items-center justify-center gap-4">
               <div
                 ref={quoteLineLeftRef}
-                className="w-12 h-px bg-accent/40"
+                className="w-10 h-px bg-accent/40"
                 style={{ transformOrigin: "right center", transform: "scaleX(0)" }}
               />
-              <span className="text-xs tracking-[0.3em] uppercase text-accent/60">
+              <span className="text-[10px] tracking-[0.3em] uppercase text-accent/60">
                 Louis Kahn
               </span>
               <div
                 ref={quoteLineRightRef}
-                className="w-12 h-px bg-accent/40"
+                className="w-10 h-px bg-accent/40"
                 style={{ transformOrigin: "left center", transform: "scaleX(0)" }}
               />
             </div>
@@ -307,12 +308,12 @@ export default function PhilosophySection() {
         {/* Philosophy Pillars */}
         <div
           ref={pillarsContainerRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6"
         >
           {pillars.map((pillar, i) => (
             <div
               key={i}
-              className="pillar-card group p-8 border border-border hover:border-border-hover transition-all duration-700 relative overflow-hidden"
+              className="pillar-card group p-6 border border-border hover:border-border-hover transition-all duration-700 relative overflow-hidden"
               style={{
                 opacity: 0,
                 background: "rgba(5,5,5,0.5)",
@@ -339,28 +340,28 @@ export default function PhilosophySection() {
 
               <div className="relative z-10">
                 {/* Number */}
-                <div className="pillar-number text-[10px] tracking-[0.4em] text-accent/25 font-mono mb-4" style={{ opacity: 0 }}>
+                <div className="pillar-number text-[9px] tracking-[0.4em] text-accent/25 font-mono mb-3" style={{ opacity: 0 }}>
                   {pillar.number}
                 </div>
 
                 {/* Icon */}
                 <div
-                  className="pillar-icon mb-6 group-hover:opacity-100 transition-opacity duration-500"
+                  className="pillar-icon mb-4 group-hover:opacity-100 transition-opacity duration-500"
                   style={{ opacity: 0 }}
                 >
                   {pillar.icon}
                 </div>
 
                 {/* Separator line */}
-                <div className="w-8 h-px bg-accent/20 mb-5 group-hover:w-16 group-hover:bg-accent/40 transition-all duration-500" />
+                <div className="w-8 h-px bg-accent/20 mb-4 group-hover:w-12 group-hover:bg-accent/40 transition-all duration-500" />
 
                 <h3
-                  className="text-white text-lg font-light mb-3 tracking-wide"
+                  className="text-white text-base font-light mb-2.5 tracking-wide"
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
                   {pillar.title}
                 </h3>
-                <p className="text-text-secondary/70 text-sm leading-relaxed">
+                <p className="text-text-secondary/65 text-xs leading-relaxed">
                   {pillar.description}
                 </p>
               </div>

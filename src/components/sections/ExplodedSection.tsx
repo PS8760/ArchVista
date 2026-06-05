@@ -44,20 +44,34 @@ export default function ExplodedSection() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 1024px)", () => {
+      const trigger = ScrollTrigger.create({
         trigger: section,
         start: "top top",
         end: "+=150%",
         pin: true,
         scrub: 1,
-        onUpdate: (self) => {
-          setProgress(self.progress);
-        },
+        onUpdate: (self) => setProgress(self.progress),
       });
-    }, section);
 
-    return () => ctx.revert();
+      return () => trigger.kill();
+    });
+
+    mm.add("(max-width: 1023px)", () => {
+      const trigger = ScrollTrigger.create({
+        trigger: section,
+        start: "top 75%",
+        end: "bottom 20%",
+        scrub: 1,
+        onUpdate: (self) => setProgress(self.progress),
+      });
+
+      return () => trigger.kill();
+    });
+
+    return () => mm.revert();
   }, []);
 
   return (
@@ -71,43 +85,43 @@ export default function ExplodedSection() {
       <div className="absolute inset-0 grid-overlay opacity-50" />
 
       {/* Content */}
-      <div className="relative z-10 h-screen flex flex-col lg:flex-row items-center justify-start lg:justify-center pt-28 pb-8 px-6 md:px-10 gap-6 lg:gap-16">
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-start gap-7 px-5 pb-12 pt-24 sm:px-6 md:px-10 lg:h-screen lg:flex-row lg:justify-center lg:gap-14 lg:py-20">
         {/* Left — Building Visualization */}
-        <div className="flex-1 flex items-center justify-center w-full lg:w-auto h-[32vh] sm:h-[38vh] lg:h-[600px] min-h-[220px]">
+        <div className="flex h-[34vh] min-h-[260px] w-full flex-1 items-center justify-center sm:h-[40vh] lg:h-[600px] lg:w-auto">
           <ExplodedCanvas progress={progress} />
         </div>
 
         {/* Right — Feature Cards */}
         <div ref={cardsRef} className="flex-1 max-w-xl w-full">
-          <div className="mb-6 lg:mb-8">
-            <span className="text-xs tracking-[0.4em] uppercase text-accent block mb-2 sm:mb-4">
+          <div className="mb-5">
+            <span className="text-[9px] tracking-[0.45em] uppercase text-accent block mb-3">
               Exploded View
             </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white">
+            <h2 className="text-xl sm:text-2xl md:text-[1.75rem] lg:text-[2rem] font-light text-white leading-[1.15]">
               Every Layer,{" "}
               <span className="text-gradient">Perfected</span>
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             {features.map((feature, i) => (
               <div
                 key={i}
-                className="group p-4 sm:p-6 border border-border hover:border-border-hover transition-all duration-500 hover-lift"
+                className="group p-5 border border-border hover:border-border-hover transition-all duration-500"
                 style={{
                   opacity: cardsInView ? 1 : 0,
-                  transform: cardsInView ? "translateY(0)" : "translateY(30px)",
-                  transition: `opacity 0.6s ${i * 0.1}s, transform 0.6s ${i * 0.1}s, border-color 0.5s, box-shadow 0.5s`,
-                  background: "rgba(13,13,13,0.5)",
+                  transform: cardsInView ? "translateY(0)" : "translateY(20px)",
+                  transition: `opacity 0.6s ${i * 0.1}s, transform 0.6s ${i * 0.1}s, border-color 0.4s`,
+                  background: "rgba(13,13,13,0.6)",
                 }}
               >
-                <span className="text-xl sm:text-2xl text-accent/60 group-hover:text-accent transition-colors duration-500">
+                <span className="text-base text-accent/55 group-hover:text-accent/80 transition-colors duration-400 block">
                   {feature.icon}
                 </span>
-                <h3 className="text-white text-xs sm:text-sm tracking-[0.1em] mt-2 sm:mt-3 mb-1 sm:mb-2 font-medium">
+                <h3 className="text-white text-[11px] tracking-[0.08em] mt-2 mb-1 font-medium leading-tight">
                   {feature.title}
                 </h3>
-                <p className="text-text-secondary/70 text-[10px] sm:text-xs leading-relaxed">
+                <p className="text-text-secondary/55 text-[11px] leading-[1.6]">
                   {feature.description}
                 </p>
               </div>
@@ -117,7 +131,7 @@ export default function ExplodedSection() {
       </div>
 
       {/* Progress bar */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-32 h-px bg-border">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-32 h-px bg-border">
         <div
           className="h-full bg-accent transition-none"
           style={{ width: `${progress * 100}%` }}

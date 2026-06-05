@@ -58,7 +58,7 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative w-full h-screen overflow-hidden"
+      className="relative w-full min-h-[100svh] overflow-hidden"
     >
       {/* Background Video */}
       <video
@@ -66,6 +66,7 @@ export default function HeroSection() {
         muted
         loop
         playsInline
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover"
         style={{ filter: "brightness(0.5)" }}
       >
@@ -85,19 +86,19 @@ export default function HeroSection() {
       {/* Content */}
       <div
         ref={contentRef}
-        className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6"
+        className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-6 pb-24 sm:pb-28 pt-24 text-center"
       >
         {/* Animated Logo */}
-        <div ref={logoRef} className="mb-12 opacity-0">
-          <Logo size={56} showWordmark={false} />
+        <div ref={logoRef} className="mb-8 opacity-0">
+          <Logo size={52} showWordmark={false} />
         </div>
 
         {/* Main Headline */}
-        <div className="mb-6">
+        <div className="mb-5">
           <AnimatedText
-            text="Architecture Beyond Imagination"
+            text="ArchVista"
             as="h1"
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white font-light leading-[1.05] tracking-tight"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl text-white font-light leading-[1.02]"
             delay={0.6}
           />
         </div>
@@ -105,10 +106,10 @@ export default function HeroSection() {
         {/* Subheadline */}
         <p
           ref={subRef}
-          className="text-text-secondary text-sm sm:text-base md:text-lg max-w-2xl leading-relaxed tracking-wide font-light opacity-0 mb-12"
+          className="text-text-secondary text-sm sm:text-base max-w-xl leading-relaxed tracking-wide font-light opacity-0 mb-10"
         >
-          A new era of luxury living crafted through technology, design, and
-          vision.
+          Private residential architecture shaped through cinematic design,
+          intelligent systems, and quietly exacting craft.
         </p>
 
         {/* CTA Button */}
@@ -127,7 +128,8 @@ export default function HeroSection() {
       {/* Scroll Indicator */}
       <div
         ref={scrollRef}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-0"
+        className="absolute bottom-7 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 opacity-0 sm:flex"
+        aria-label="Scroll down to explore"
       >
         <span className="text-[10px] tracking-[0.3em] uppercase text-text-secondary/60">
           Scroll
