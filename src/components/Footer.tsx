@@ -14,7 +14,7 @@ const links = [
   { label: "Gallery", href: "#gallery" },
   { label: "Contact", href: "#cta" },
 ];
-const socials = [];
+const socials: Array<{ label: string; href: string }> = [];
 
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
